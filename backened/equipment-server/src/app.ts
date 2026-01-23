@@ -1,5 +1,6 @@
 import express from 'express';
 import equipmentRoutes from './routes/equipment.routes';
+import { errorHandler } from './middleware/error.middleware';
 
 const app = express();
 
@@ -10,5 +11,5 @@ app.get('/health', (_req, res) => {
 });
 
 app.use('/api/equipment', equipmentRoutes);
-
+app.use(errorHandler);
 export default app;
