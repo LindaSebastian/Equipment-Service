@@ -35,7 +35,7 @@ export const getAllEquipment = async ({
   status?: string;
   location?: string;
   sortBy?: any;
-  order?: "asc" | "desc";
+  order?: "asc" | "desc" | undefined;
 }) => {
   const where: any = {};
   const ALLOWED_STATUS = ["ACTIVE", "INACTIVE"] as const;
@@ -45,6 +45,7 @@ export const getAllEquipment = async ({
     "name",
     "location",
     "status",
+    "order"
   ] as const;
   if (sortBy && !ALLOWED_SORT_FIELDS.includes(sortBy)) {
     throw new ApiError(
@@ -63,6 +64,7 @@ export const getAllEquipment = async ({
 
   if (status) where.status = status;
   if (location) where.location = location;
+  console.log("Where clause:", where, location);
   const [data, total] = await Promise.all([
     prisma.equipment.findMany({
       skip: (page - 1) * limit,
